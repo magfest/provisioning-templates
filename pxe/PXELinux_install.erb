@@ -1,0 +1,19 @@
+<%#
+kind: PXELinux
+name: PXELinux global default
+%>
+
+<%# This template has special name (do not change it) and it is used for booting unknown hosts. %>
+
+DEFAULT menu
+PROMPT 0
+MENU TITLE PXE Menu
+TIMEOUT 50
+TOTALTIMEOUT 6000
+ONTIMEOUT Install
+
+LABEL Install
+     MENU LABEL Install MAGFest Linux <%= @host.architecture %>
+     KERNEL boot/Fedora/vmlinuz-<%= @host.architecture %>
+     APPEND initrd=boot/Fedora/initrd.img-<%= @host.architecture %> inst.ks=<%= foreman_url("provision") %>
+     IPAPPEND 2
