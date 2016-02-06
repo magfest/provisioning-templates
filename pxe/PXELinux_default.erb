@@ -15,7 +15,7 @@ ONTIMEOUT discovery
 LABEL discovery
      MENU LABEL (discovery)
      KERNEL boot/fdi-image/vmlinuz0_i686
-     APPEND initrd=boot/fdi-image/initrd0_i686.img rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nomodeset proxy.url=https://172.23.23.20 proxy.type=foreman fdi.rootpw=abc123 foreman.url=https://172.23.23.20
+     APPEND initrd=boot/fdi-image/initrd0_i686.img rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nomodeset proxy.url=https://10.14.1.14 proxy.type=foreman fdi.rootpw=abc123 foreman.url=https://10.14.1.14
      IPAPPEND 2
 
 <% for profile in @profiles -%>
