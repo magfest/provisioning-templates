@@ -15,6 +15,6 @@ ONTIMEOUT Install
 LABEL Install
      MENU LABEL Install MAGFest Linux <%= @host.architecture %>
      KERNEL boot/Fedora/vmlinuz-<%= @host.architecture %>
-     APPEND initrd=boot/Fedora/initrd.img-<%= @host.architecture %> inst.ks=<%= foreman_url("provision") %> extlinux sshd=1 inst.repo=nfs:repo.magfest.net:/srv/rpms/fedora-i386/disc1/
+     APPEND initrd=boot/Fedora/initrd.img-<%= @host.architecture %> inst.ks=<%= foreman_url("provision") %> extlinux sshd=1 inst.repo=nfs:repo.magfe.st:/srv/rpms/fedora-i386/disc1/
      IPAPPEND 2
 
