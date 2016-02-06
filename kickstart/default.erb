@@ -32,12 +32,13 @@ This template accepts the following parameters:
   section_end = (rhel_compatible && os_major <= 5) ? '' : '%end'
 %>
 install
-<%= @mediapath %> --noverifyssl
+#<%= @mediapath %> --noverifyssl
 
 lang <%= @host.params['lang'] || 'en_US.UTF-8' %>
 selinux --<%= @host.params['selinux'] || 'enforcing' %>
 keyboard <%= @host.params['keyboard'] || 'us' %>
 skipx
+text
 
 <% subnet = @host.subnet -%>
 <% if subnet.respond_to?(:dhcp_boot_mode?) -%>
@@ -52,6 +53,7 @@ rootpw --iscrypted <%= root_pass %>
 firewall --disable
 authconfig --useshadow --passalgo=sha256 --kickstart
 timezone --utc <%= @host.params['time-zone'] || 'UTC' %>
+sshpw --username=root --plaintext abc123
 
 repo --name=core --baseurl=http://repo.magfest.net/fedora-<%= @host.architecture %>/RPMS.core/ --noverifyssl
 repo --name=updates --baseurl=http://repo.magfest.net/fedora-<%= @host.architecture %>/RPMS.updates/ --noverifyssl
@@ -61,11 +63,12 @@ part biosboot --fstype=biosboot --size=1
 
 <%= @host.diskLayout %>
 
-text
 reboot
 
 %packages
 salt-minion
+python-augeas
+augeas
 wget
 <%= section_end -%>
 
@@ -74,7 +77,10 @@ logger "Starting anaconda <%= @host %> postinstall"
 exec < /dev/tty3 > /dev/tty3
 #changing to VT 3 so that we can see whats going on....
 /usr/bin/chvt 3
-(
+
+cp /etc/fstab /etc/fstab.old
+cat /etc/fstab | grep -v porteus > /etc/fstab.new
+mv -f /etc/fstab.new /etc/fstab
 
 #update local time
 echo "updating system time"
@@ -94,15 +100,10 @@ sleep 10
 echo "Informing Foreman that we are built"
 wget -q -O /dev/null --no-check-certificate <%= foreman_url %>
 sleep 10
-echo "Running salt a few times to jumpstart configuration"
+echo "Running salt to jumpstart configuration"
 salt-call state.highstate
-salt-call state.highstate
-salt-call state.highstate
+echo "Complete"
 <% end -%>
-
-sync
-) 2>&1 | tee /root/install.post.log
-exit 0
-
 <%= section_end -%>
+
 

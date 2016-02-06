@@ -3,7 +3,7 @@ kind: PXELinux
 name: PXELinux default local boot
 %>
 
-<%# This template has special name (do not change it) and it is used for booting already provisioned hosts. %>
+<%# This template has special name (do not change it) and it is used for booting unknown hosts. %>
 
 DEFAULT menu
 PROMPT 0
@@ -16,3 +16,16 @@ LABEL local
      MENU LABEL (local)
      MENU DEFAULT
      LOCALBOOT 0
+     
+LABEL porteus
+     MENU LABEL Porteus
+     KERNEL boot/porteus/vmlinux
+     APPEND initrd=boot/porteus/initrd.xz,boot/porteus/pxelinux.cfg/initrdpxe.xz quiet http_server=http://repo.magfest.net/porteus/
+
+LABEL discovery
+     MENU LABEL (discovery)
+     KERNEL boot/fdi-image/vmlinuz0
+     APPEND initrd=boot/fdi-image/initrd0.img rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nomodeset proxy.url=https://FOREMAN_INSTANCE proxy.type=foreman
+     IPAPPEND 2
+
+
