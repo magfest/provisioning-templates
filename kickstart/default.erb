@@ -55,8 +55,8 @@ authconfig --useshadow --passalgo=sha256 --kickstart
 timezone --utc <%= @host.params['time-zone'] || 'UTC' %>
 sshpw --username=root --plaintext abc123
 
-repo --name=core --baseurl=http://repo.magfest.net/fedora-<%= @host.architecture %>/RPMS.core/ --noverifyssl
-repo --name=updates --baseurl=http://repo.magfest.net/fedora-<%= @host.architecture %>/RPMS.updates/ --noverifyssl
+repo --name=core --baseurl=http://repo.magfe.st/fedora-<%= @host.architecture %>/RPMS.core/ --noverifyssl
+repo --name=updates --baseurl=http://repo.magfe.st/fedora-<%= @host.architecture %>/RPMS.updates/ --noverifyssl
 
 bootloader --append="<%= @host.params['bootloader-append'] || 'nofb quiet splash=quiet' %>" <%= grub_pass %>
 part biosboot --fstype=biosboot --size=1
